@@ -1,5 +1,8 @@
 # Adversarial NLI
 
+## Paper
+[**Adversarial NLI: A New Benchmark for Natural Language Understanding**](https://arxiv.org/abs/1910.14599)
+
 ## Dataset
 Version 0.1 is available here: https://dl.fbaipublicfiles.com/anli/anli_v0.1.zip.
 
