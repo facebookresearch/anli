@@ -20,5 +20,13 @@ When using this dataset, we ask that you obey some very simple rules:
 
 3. We will host a leaderboard on this page. If you want to be added to the leaderboard, please contact us and/or submit a PR with a link to your paper, a link to your code in a public repository (e.g. Github), together with the following information: number of parameters in your model, data used for (pre-)training, and your dev and test results for *each* round, as well as the total over *all* rounds.
 
+## Other NLI Resources
+
+We used following NLI resources in training the backend model of the adversarial collection:
+- [**SNLI**](https://nlp.stanford.edu/projects/snli/)
+- [**MultiNLI**](https://www.nyu.edu/projects/bowman/multinli/)
+- [**NLI style FEVER**](https://github.com/easonnie/combine-FEVER-NSMN/blob/master/other_resources/nli_fever.md)
+
+
 ## License
 ANLI is licensed under Creative Commons-Non Commercial 4.0. See the LICENSE file for details.
