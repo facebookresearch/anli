@@ -4,7 +4,8 @@
 # This source code is licensed under Creative Commons-Non Commercial 4.0 found in the
 # LICENSE file in the root directory of this source tree.
 
-ANLI_VERSION=0.1
+#ANLI_VERSION=0.1
+ANLI_VERSION=1.0
 #echo ${ANLI_VERSION}
 
 if [[ -z "$DIR_TMP" ]]; then    # If project root not defined.
