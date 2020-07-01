@@ -9,6 +9,8 @@ import config
 from dataset_tools.format_convert import sm_nli2std_format, fever_nli2std_format, a_nli2std_format
 from utils import common
 
+# ANLI_VERSION = 1.0
+
 
 def build_snli(path: Path):
     snli_data_root_path = (path / "snli")
@@ -76,16 +78,16 @@ def build_fever_nli(path: Path):
     common.save_jsonl(d_test, data_root_path / 'test.jsonl')
 
 
-def build_anli(path: Path, round=1):
+def build_anli(path: Path, round=1, version='1.0'):
     data_root_path = (path / "anli")
     if not data_root_path.exists():
         data_root_path.mkdir()
 
     round_tag = str(round)
 
-    o_train = common.load_jsonl(config.PRO_ROOT / f"data/anli_v0.1/R{round_tag}/train.jsonl")
-    o_dev = common.load_jsonl(config.PRO_ROOT / f"data/anli_v0.1/R{round_tag}/dev.jsonl")
-    o_test = common.load_jsonl(config.PRO_ROOT / f"data/anli_v0.1/R{round_tag}/test.jsonl")
+    o_train = common.load_jsonl(config.PRO_ROOT / f"data/anli_v{version}/R{round_tag}/train.jsonl")
+    o_dev = common.load_jsonl(config.PRO_ROOT / f"data/anli_v{version}/R{round_tag}/dev.jsonl")
+    o_test = common.load_jsonl(config.PRO_ROOT / f"data/anli_v{version}/R{round_tag}/test.jsonl")
 
     d_trian = a_nli2std_format(o_train)
     d_dev = a_nli2std_format(o_dev)
