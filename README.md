@@ -10,11 +10,11 @@ Version 1.0 is available here: https://dl.fbaipublicfiles.com/anli/anli_v1.0.zip
 
 A leaderboard will be hosted on this page.
 
-Model | A1 | A2 | A3
----|---|---|---
-RoBERTa Large [Liu et al., 2019](https://arxiv.org/abs/1907.11692) | 72.4 | 49.8 | 44.4
-XLNet Large [Yang et al., 2019](https://arxiv.org/abs/1906.08237) | 70.3 | 50.9 | 49.4
-GPT-3 [Brown et al., 2020](https://arxiv.org/abs/2005.14165) | 36.8 | 34.0 | 40.2
+Publication | Model | A1 | A2 | A3
+---|---|---|---|---
+[Liu et al., 2019](https://arxiv.org/abs/1907.11692) | RoBERTa Large | 72.4 | 49.8 | 44.4
+[Yang et al., 2019](https://arxiv.org/abs/1906.08237) | XLNet Large | 70.3 | 50.9 | 49.4
+[Brown et al., 2020](https://arxiv.org/abs/2005.14165) | GPT-3 | 36.8 | 34.0 | 40.2
 
 ## The Implementation.
 To facilitate research in the field of NLI, we provide easy-to-use codebase for NLI data preparation and modeling.
