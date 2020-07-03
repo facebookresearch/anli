@@ -8,6 +8,8 @@ Version 1.0 is available here: https://dl.fbaipublicfiles.com/anli/anli_v1.0.zip
 
 ## Leaderboard
 
+If you want to have your model added to the leaderboard, please reach out to us or submit a PR.
+
 Model | Publication | A1 | A2 | A3
 ---|---|---|---|---
 RoBERTa Large | [Liu et al., 2019](https://arxiv.org/abs/1907.11692) | 72.4 | 49.8 | 44.4
