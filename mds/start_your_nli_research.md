@@ -8,7 +8,7 @@ This tutorial gives detailed instructions to help you start research on NLI with
 - transformers 2.11.0           https://github.com/huggingface/transformers/
 
 ## Initial Setup
-### 1. Setup your python environment and install the requirements. (We can use `conda` or `pip`.)
+### 1. Setup your python environment and install the requirements.
 ### 2. Clone this repo.
 ```
 git clone https://github.com/facebookresearch/anli.git
