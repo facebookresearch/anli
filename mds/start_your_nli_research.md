@@ -1,7 +1,7 @@
 # Start your NLI Research
 This tutorial gives detailed instructions to help you start research on NLI with pre-trained state-of-the-art models (June 2020).
 
-## Requirement
+## Requirements
 - python 3.6+
 - tqdm
 - torch 1.4.0                   https://pytorch.org/
@@ -35,11 +35,10 @@ If any data is missing, you can remove the unchecked folders in the `data` direc
 cd $DIR_TMP                                 # Make sure that you run all the scripts in the root of this repo.
 python src/dataset_tools/build_data.py      # If you encounter import errors, please make sure you have run `source setup.sh` to set up the `$PYTHONPATH`
 ```
-The script will not only convert SNLI, MNLI, FEVER-NLI, ANLI data into an unified NLI format, but also remove examples in SNLI and MNLI without gold label (following all prior works).
+The script will convert SNLI, MNLI, FEVER-NLI, ANLI all into the same unified NLI format, and will also remove examples in SNLI and MNLI that do not have a gold label (as in prior work).
 
 #### Data Directory
-Once the `build_data.py` script completed successfully, the `data` directory (in the project root) should contains a directory called `build` where the formatted data lie within.  
-Your data directory should have a structure like the one attached below.
+Once the `build_data.py` script has completed successfully, the `data` directory (in the project root) should contains a directory called `build` containing the dataset files in the unified data format. Your data directory should have a structure like the one attached below.
 ```
 data
 ├── build
@@ -81,8 +80,9 @@ data
 #### Data Format
 NLI is basically a 3-way sequence-to-label classification task where the inputs are two textual sequences 
 called `premise` and `hypothesis`, and the output is a discrete label that is either `entailment`, `contradiction`, or `neutral`. 
-(Some works consider it to be a 2-way classification tasks. The code here can be easily convert to any sequence-to-label task with some hacking.)
-We the training script will load NLI data with an unified `jsonl` format in which each line is a JSON object for one NLI example.
+(Some works consider it to be a 2-way classification tasks. The code here can easily be converted to any sequence-to-label task with some hacking.)
+
+The training script will load NLI data with a unified `jsonl` format in which each line is a JSON object for one NLI example.
 The JSON object should have the following fields:
 - "uid": unique id of the example;
 - "premise": the premise of the NLI example;
@@ -102,7 +102,7 @@ Here is one example from SNLI:
 
 Note that some training examples and all the development and test examples in ANLI have a `reason` field showing the reason for the annotation. Please read the paper for details.
 
-If you want to train or evaluate the model on data other than SNLI, MNLI, FEVER-NLI, or ANLI, we recommend you refer to `src/dataset_tools/build_data.py` and `src/dataset_tools/format_convert.py` and use the tools in the repo to build your own data to avoid any exceptions. 
+If you want to train or evaluate the model on data other than SNLI, MNLI, FEVER-NLI, or ANLI, we recommend that you refer to `src/dataset_tools/build_data.py` and `src/dataset_tools/format_convert.py` and use the tools in the repo to build your own data to avoid any exceptions. 
 
 ## Model Training
 Now, you can use the following script to start training your NLI models.
@@ -141,14 +141,14 @@ For example, suppose snli_train has 100 examples, and `[name_of_your_data]` has 
 - "--eval_frequency": The number of iteration steps between two saved model checkpoints.
 - "--experiment_name": The name of the experiment. During training, the checkpoints will be saved in `saved_models/{TRAINING_START_TIME}_[experiment_name]` directory (in the project root). So, the name will be an important identifier for finding the saved checkpoints.
 
-The other arguments should be self-explanatory. We recommend you read the code if you are unsure about a specific argument.
+The other arguments should be self-explanatory. We recommend that you read the code if you are unsure about a specific argument.
 
 The example scripts `script/example_scripts/train_roberta.sh` and `script/example_scripts/train_xlnet.sh` can be used to reproduce the leaderboard RoBERTa and XLNet results, respectively.  
 The scripts were tested on a machine with 8 Tesla V100 (16GB).
 
-You can try a smaller RoBERTa-base model with `script/example_scripts/train_roberta_small.sh` which can run on single GPU with 12GB memory.  
+You can try a smaller RoBERTa-base model with `script/example_scripts/train_roberta_small.sh` which can be run on single GPU with 12GB memory.  
 
-During the training, model checkpoints will be automatically saved in `saved_models` directory.
+During training, model checkpoints will be automatically saved in `saved_models` directory.
 
 #### Batch Size
 Training batch size might be a factor for performance. The actual training batch size can be calculated as `[number_of_nodes](-n)` * `[number_of_gpus_per_node](-g)` * `[per_gpu_train_batch_size]` * `[gradient_accumulation_steps]`.  
@@ -159,7 +159,7 @@ The code uses pytorch distributed data parallel for multiGPU training which tech
 You need to set `$MASTER_ADDR` variable to pass IP address of the master process to the python script.  
 In most cases, you will just use one machine and you can just set this variable to "localhost".  
 
-## Model Evaluating
+## Evaluating Trained Models
 ```bash
 python src/nli/evaluation.py \ 
     --model_class_name "roberta-large" \
