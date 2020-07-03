@@ -10,6 +10,12 @@ Version 1.0 is available here: https://dl.fbaipublicfiles.com/anli/anli_v1.0.zip
 
 A leaderboard will be hosted on this page.
 
+Model | A1 | A2 | A3
+---|---|---|---
+`RoBERTa Large [Liu et al., 2019](https://arxiv.org/abs/1907.11692)` | 72.4 | 49.8 | 44.4
+`XLNet Large [Yang et al., 2019](https://arxiv.org/abs/1906.08237)` | 70.3 | 50.9 | 49.4
+`GPT-3 [Brown et al., 2020](https://arxiv.org/abs/2005.14165)` | 36.8 | 34.0 | 40.2
+
 ## The Implementation.
 To facilitate research in the field of NLI, we provide easy-to-use codebase for NLI data preparation and modeling.
 The code is built upon [Transformers](https://huggingface.co/transformers/) with special focus on NLI.
@@ -17,7 +23,7 @@ The code is built upon [Transformers](https://huggingface.co/transformers/) with
 We welcome researchers from various fields (linguistics, machine learning, cognitive science, psychology, etc.) to try NLI. 
 You can use the code to reproduce the results in our paper or even as a starting point for your research.
 
-Please read more in [*Start your NLI research*](mds/start_your_nli_research.md).
+Please read more in [**Start your NLI research**](mds/start_your_nli_research.md).
 
 ## Rules
 
