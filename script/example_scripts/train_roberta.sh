@@ -7,7 +7,6 @@ nvidia-smi
 # End visible GPUs.
 
 # setup conda environment
-conda activate conda_parlai_summer2020
 source setup.sh
 
 which python
