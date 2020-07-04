@@ -184,7 +184,8 @@ class NLITransform(object):
         processed_sample['gold_label'] = sample['label']
         processed_sample['y'] = nli_label2index[sample['label']]
 
-        premise: str = sample['premise']
+        # premise: str = sample['premise']
+        premise: str = sample['context'] if 'context' in sample else sample['premise']
         hypothesis: str = sample['hypothesis']
 
         if premise.strip() == '':
