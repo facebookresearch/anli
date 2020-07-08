@@ -24,7 +24,9 @@ The code is built upon [Transformers](https://huggingface.co/transformers/) with
 We welcome researchers from various fields (linguistics, machine learning, cognitive science, psychology, etc.) to try NLI. 
 You can use the code to reproduce the results in our paper or even as a starting point for your research.
 
-Please read more in [**Start your NLI research**](mds/start_your_nli_research.md).
+Please read more in [**Start your NLI research**](mds/start_your_nli_research.md).  
+An important detail in our experiments is that we combined SNLI+MNLI+FEVER-NLI and up-sample different rounds of ANLI to train the models.  
+<span style="color:red">We highly recommend you refer to the above link for reproducing the results and training your models such that the results will be comparable to the ones on the leaderboard.</span> 
 
 ## Rules
 

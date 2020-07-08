@@ -144,6 +144,11 @@ For example, suppose snli_train has 100 examples, and `[name_of_your_data]` has 
 The other arguments should be self-explanatory. We recommend that you read the code if you are unsure about a specific argument.
 
 The example scripts `script/example_scripts/train_roberta.sh` and `script/example_scripts/train_xlnet.sh` can be used to reproduce the leaderboard RoBERTa and XLNet results, respectively.  
+An **important detail** is that the training data used in above experiments are SNLI + MNLI + FEVER-NLI + 10*A1 (10 times upsampled ANLI-R1) + 20*A2 (20 times upsampled ANLI-R2) + 10*A3 (10 times upsampled ANLI-R3), as specified in the following arguments:
+```
+    --train_data snli_train:none,mnli_train:none,fever_train:none,anli_r1_train:none,anli_r2_train:none,anli_r3_train:none \
+    --train_weights 1,1,1,10,20,10 \
+```
 The scripts were tested on a machine with 8 Tesla V100 (16GB).
 
 You can try a smaller RoBERTa-base model with `script/example_scripts/train_roberta_small.sh` which can be run on single GPU with 12GB memory.  
