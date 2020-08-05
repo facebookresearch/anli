@@ -154,18 +154,21 @@ def inference(model_class_name, model_checkpoint_path, max_length, premise, hypo
 
 if __name__ == '__main__':
     # model_class_name = "roberta-large"
-    # model_checkpoint_path = config.PRO_ROOT / "saved_models/06-29-22:16:24_roberta-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(0)|i(22000)|snli_dev#(0.9255)|mnli_m_dev#(0.8951)|mnli_mm_dev#(0.8993)|anli_r1_dev#(0.744)|anli_r1_test#(0.735)|anli_r2_dev#(0.489)|anli_r2_test#(0.497)|anli_r3_dev#(0.47)|anli_r3_test#(0.4442)/model.pt"
+    # model_checkpoint_path = config.PRO_ROOT / "saved_models/06-29-22:16:24_roberta-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(0)|i(24000)|snli_dev#(0.9252)|mnli_m_dev#(0.899)|mnli_mm_dev#(0.9002)|anli_r1_dev#(0.74)|anli_r1_test#(0.742)|anli_r2_dev#(0.506)|anli_r2_test#(0.498)|anli_r3_dev#(0.4667)|anli_r3_test#(0.455)/model.pt"
 
     # model_class_name = "xlnet-large"
-    # model_checkpoint_path = config.PRO_ROOT / ""
+    # model_checkpoint_path = config.PRO_ROOT / "saved_models/06-29-23:04:33_xlnet-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(1)|i(30000)|snli_dev#(0.9274)|mnli_m_dev#(0.8981)|mnli_mm_dev#(0.8947)|anli_r1_dev#(0.735)|anli_r1_test#(0.701)|anli_r2_dev#(0.521)|anli_r2_test#(0.514)|anli_r3_dev#(0.5075)|anli_r3_test#(0.4975)/model.pt"
+
+    model_class_name = "albert-xxlarge"
+    model_checkpoint_path = config.PRO_ROOT / "saved_models/06-29-23:09:03_albert-xxlarge|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(0)|i(16000)|snli_dev#(0.9246)|mnli_m_dev#(0.8948)|mnli_mm_dev#(0.8932)|anli_r1_dev#(0.733)|anli_r1_test#(0.711)|anli_r2_dev#(0.571)|anli_r2_test#(0.57)|anli_r3_dev#(0.5817)|anli_r3_test#(0.5375)/model.pt"
     #
     # model_class_name = "bart-large"
-    # model_checkpoint_path = config.PRO_ROOT / "saved_models/06-30-08:23:44_bart-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(0)|i(25264)|snli_dev#(0.9302)|mnli_m_dev#(0.8985)|mnli_mm_dev#(0.8966)|anli_r1_dev#(0.723)|anli_r1_test#(0.713)|anli_r2_dev#(0.528)|anli_r2_test#(0.502)|anli_r3_dev#(0.5125)|anli_r3_test#(0.4992)/model.pt"
+    # model_checkpoint_path = config.PRO_ROOT / "saved_models/06-30-08:23:44_bart-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(1)|i(40000)|snli_dev#(0.9298)|mnli_m_dev#(0.8941)|mnli_mm_dev#(0.8973)|anli_r1_dev#(0.736)|anli_r1_test#(0.72)|anli_r2_dev#(0.533)|anli_r2_test#(0.514)|anli_r3_dev#(0.5058)|anli_r3_test#(0.5042)/model.pt"
     #
-    model_class_name = "electra-large"
-    model_checkpoint_path = config.PRO_ROOT / "saved_models/08-02-08:58:05_electra-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(0)|i(12000)|snli_dev#(0.9168)|mnli_m_dev#(0.8597)|mnli_mm_dev#(0.8661)|anli_r1_dev#(0.672)|anli_r1_test#(0.678)|anli_r2_dev#(0.536)|anli_r2_test#(0.522)|anli_r3_dev#(0.55)|anli_r3_test#(0.5217)/model.pt"
+    # model_class_name = "electra-large"
+    # model_checkpoint_path = config.PRO_ROOT / "saved_models/08-02-08:58:05_electra-large|snli+mnli+fnli+r1*10+r2*20+r3*10|nli/checkpoints/e(0)|i(12000)|snli_dev#(0.9168)|mnli_m_dev#(0.8597)|mnli_mm_dev#(0.8661)|anli_r1_dev#(0.672)|anli_r1_test#(0.678)|anli_r2_dev#(0.536)|anli_r2_test#(0.522)|anli_r3_dev#(0.55)|anli_r3_test#(0.5217)/model.pt"
 
-    max_length = 156
+    max_length = 184
 
     premise = "Two women are embracing while holding to go packages."
     hypothesis = "The men are fighting outside a deli."
