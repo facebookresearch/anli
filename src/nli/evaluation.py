@@ -58,7 +58,8 @@ def evaluation():
         args.global_rank = 0
 
     model_checkpoint_path = args.model_checkpoint_path
-    num_labels = 3  # we are doing NLI so we set num_labels = 3, for other task we can change this value.
+    num_labels = 3
+    # we are doing NLI so we set num_labels = 3, for other task we can change this value.
 
     max_length = args.max_length
 
