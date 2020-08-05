@@ -12,6 +12,7 @@ from transformers import BertTokenizer, BertForSequenceClassification
 from transformers import AlbertTokenizer, AlbertForSequenceClassification
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
 from transformers import BartTokenizer, BartForSequenceClassification
+from transformers import ElectraTokenizer, ElectraForSequenceClassification
 
 from torch.utils.data import Dataset, DataLoader, DistributedSampler, RandomSampler, SequentialSampler
 import config
@@ -114,6 +115,22 @@ MODEL_CLASSES = {
         "padding_segement_value": 0,
         "padding_att_value": 0,
     },
+
+    "electra-base": {
+        "model_name": "google/electra-base-discriminator",
+        "tokenizer": ElectraTokenizer,
+        "sequence_classification": ElectraForSequenceClassification,
+        "padding_segement_value": 0,
+        "padding_att_value": 0,
+    },
+
+    "electra-large": {
+        "model_name": "google/electra-large-discriminator",
+        "tokenizer": ElectraTokenizer,
+        "sequence_classification": ElectraForSequenceClassification,
+        "padding_segement_value": 0,
+        "padding_att_value": 0,
+    }
 }
 
 registered_path = {
@@ -196,7 +213,7 @@ class NLITransform(object):
 
         tokenized_input_seq_pair = self.tokenizer.encode_plus(premise, hypothesis,
                                                               max_length=self.max_length,
-                                                              return_token_type_ids=True)
+                                                              return_token_type_ids=True, truncation=True)
 
         processed_sample.update(tokenized_input_seq_pair)
 
