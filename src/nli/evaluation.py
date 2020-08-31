@@ -12,7 +12,7 @@ from utils import common, list_dict_data_tool, save_tool
 from nli.training import MODEL_CLASSES, registered_path, build_eval_dataset_loader_and_sampler, NLITransform, \
     NLIDataset, count_acc, evaluation_dataset, eval_model
 
-import torchs
+import torch
 
 import pprint
 
