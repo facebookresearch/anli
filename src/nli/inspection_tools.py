@@ -8,6 +8,8 @@ import torch
 import logging
 from captum.attr import LayerIntegratedGradients
 
+logger = logging.getLogger(__name__)
+
 
 def summarize_attributions(attributions):
     """
