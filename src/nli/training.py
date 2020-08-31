@@ -67,6 +67,7 @@ MODEL_CLASSES = {
         "padding_segement_value": 4,
         "padding_att_value": 0,
         "left_pad": True,
+        "internal_model_name": ["transformer", "word_embedding"],
     },
     "xlnet-large": {
         "model_name": "xlnet-large-cased",
@@ -75,6 +76,7 @@ MODEL_CLASSES = {
         "padding_segement_value": 4,
         "padding_att_value": 0,
         "left_pad": True,
+        "internal_model_name": ["transformer", "word_embedding"],
     },
 
     "roberta-base": {
@@ -83,6 +85,8 @@ MODEL_CLASSES = {
         "sequence_classification": RobertaForSequenceClassification,
         "padding_segement_value": 0,
         "padding_att_value": 0,
+        "internal_model_name": "roberta",
+        'insight_supported': True,
     },
     "roberta-large": {
         "model_name": "roberta-large",
@@ -90,6 +94,8 @@ MODEL_CLASSES = {
         "sequence_classification": RobertaForSequenceClassification,
         "padding_segement_value": 0,
         "padding_att_value": 0,
+        "internal_model_name": "roberta",
+        'insight_supported': True,
     },
 
     "albert-xxlarge": {
@@ -98,6 +104,9 @@ MODEL_CLASSES = {
         "sequence_classification": AlbertForSequenceClassification,
         "padding_segement_value": 0,
         "padding_att_value": 0,
+        "do_lower_case": True,
+        "internal_model_name": "albert",
+        'insight_supported': True,
     },
 
     "distilbert": {
@@ -114,6 +123,7 @@ MODEL_CLASSES = {
         "sequence_classification": BartForSequenceClassification,
         "padding_segement_value": 0,
         "padding_att_value": 0,
+        "internal_model_name": ["model", "encoder", "embed_tokens"],
     },
 
     "electra-base": {
@@ -122,6 +132,8 @@ MODEL_CLASSES = {
         "sequence_classification": ElectraForSequenceClassification,
         "padding_segement_value": 0,
         "padding_att_value": 0,
+        "internal_model_name": "electra",
+        'insight_supported': True,
     },
 
     "electra-large": {
@@ -130,6 +142,8 @@ MODEL_CLASSES = {
         "sequence_classification": ElectraForSequenceClassification,
         "padding_segement_value": 0,
         "padding_att_value": 0,
+        "internal_model_name": "electra",
+        'insight_supported': True,
     }
 }
 
