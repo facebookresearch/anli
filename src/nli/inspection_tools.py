@@ -25,7 +25,7 @@ def get_model_prediction(input_ids, attention_mask, token_type_ids, model, model
 
     if not with_gradient:
         with torch.no_grad():
-            if model_class_item['model_name'] in ["distilbert", "bart-large"]:
+            if model_class_item['model_class_name'] in ["distilbert", "bart-large"]:
                 outputs = model(input_ids,
                                 attention_mask=attention_mask,
                                 labels=None)
@@ -35,7 +35,7 @@ def get_model_prediction(input_ids, attention_mask, token_type_ids, model, model
                                 token_type_ids=token_type_ids,
                                 labels=None)
     else:
-        if model_class_item['model_name'] in ["distilbert", "bart-large"]:
+        if model_class_item['model_class_name'] in ["distilbert", "bart-large"]:
             outputs = model(input_ids,
                             attention_mask=attention_mask,
                             labels=None)
@@ -53,7 +53,7 @@ def get_lig_object(model, model_class_item):
     internal_model_name = model_class_item['internal_model_name']
     lig = None  # default is None.
     if not insight_supported:
-        logger.info(f"Inspection for model '{model_class_item['model_name']}' is not supported.")
+        logger.info(f"Inspection for model '{model_class_item['model_class_name']}' is not supported.")
         return lig
 
     if isinstance(internal_model_name, list):
