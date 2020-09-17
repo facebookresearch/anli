@@ -7,8 +7,9 @@ import argparse
 from pathlib import Path
 
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
-from transformers import XLNetTokenizer, XLNetForSequenceClassification
-# from dummy_modeling_xlnet import XLNetForSequenceClassification
+# from transformers import XLNetTokenizer, XLNetForSequenceClassification
+from transformers import XLNetTokenizer
+from modeling.dummy_modeling_xlnet import XLNetForSequenceClassification
 from transformers import BertTokenizer, BertForSequenceClassification
 from transformers import AlbertTokenizer, AlbertForSequenceClassification
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
