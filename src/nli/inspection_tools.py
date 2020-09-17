@@ -53,7 +53,7 @@ def get_lig_object(model, model_class_item):
     internal_model_name = model_class_item['internal_model_name']
     lig = None  # default is None.
     if not insight_supported:
-        logger.info(f"Inspection for model '{model_class_item['model_class_name']}' is not supported.")
+        logger.warning(f"Inspection for model '{model_class_item['model_class_name']}' is not supported.")
         return lig
 
     if isinstance(internal_model_name, list):
@@ -61,7 +61,7 @@ def get_lig_object(model, model_class_item):
         for layer_n in internal_model_name:
             current_layer = current_layer.__getattr__(layer_n)
         # print(current_layer)
-        lig = LayerIntegratedGradients(model, current_layer)
+        lig = LayerIntegratedGradients(get_model_prediction, current_layer)
     else:
         lig = LayerIntegratedGradients(get_model_prediction,
                                        model.__getattr__(internal_model_name).embeddings.word_embeddings)

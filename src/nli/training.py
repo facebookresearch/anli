@@ -8,6 +8,7 @@ from pathlib import Path
 
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 from transformers import XLNetTokenizer, XLNetForSequenceClassification
+# from dummy_modeling_xlnet import XLNetForSequenceClassification
 from transformers import BertTokenizer, BertForSequenceClassification
 from transformers import AlbertTokenizer, AlbertForSequenceClassification
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
@@ -77,6 +78,7 @@ MODEL_CLASSES = {
         "padding_att_value": 0,
         "left_pad": True,
         "internal_model_name": ["transformer", "word_embedding"],
+        'insight_supported': True,
     },
 
     "roberta-base": {
@@ -124,6 +126,7 @@ MODEL_CLASSES = {
         "padding_segement_value": 0,
         "padding_att_value": 0,
         "internal_model_name": ["model", "encoder", "embed_tokens"],
+        'insight_supported': True,
     },
 
     "electra-base": {
