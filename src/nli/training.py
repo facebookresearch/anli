@@ -59,6 +59,8 @@ MODEL_CLASSES = {
         "padding_segement_value": 0,
         "padding_att_value": 0,
         "do_lower_case": True,
+        "internal_model_name": "bert",
+        'insight_supported': True,
     },
 
     "xlnet-base": {
