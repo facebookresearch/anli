@@ -121,7 +121,7 @@ python src/nli/training.py \
     --per_gpu_eval_batch_size 16 \
     --save_prediction \
     --train_data snli_train:none,mnli_train:none \
-    --train_weights 1 \
+    --train_weights 1,1 \
     --eval_data snli_dev:none \
     --eval_frequency 2000 \
     --experiment_name "roberta-large|snli|nli"
