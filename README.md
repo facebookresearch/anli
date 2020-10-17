@@ -85,7 +85,7 @@ if __name__ == '__main__':
     print("Contradiction:", predicted_probability[2])
 ```
 
-More in [here](https://github.com/facebookresearch/anli/blob/master/src/hg_api/interactive_eval.py).
+More in [here](https://github.com/facebookresearch/anli/src/hg_api/interactive_eval.py).
 
 ## Rules
 
