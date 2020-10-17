@@ -33,7 +33,9 @@ An important detail in our experiments is that we combine SNLI+MNLI+FEVER-NLI an
 
 ## Pre-trained Models
 Pre-trained NLI models can be easily called through huggingface model hub.  
-The pre-trained models are `RoBERTa`, `ALBert`, `BART`, `ELECTRA`, `XLNet`.    
+
+Models: `RoBERTa`, `ALBert`, `BART`, `ELECTRA`, `XLNet`.  
+
 The training data is a combination of [`SNLI`](https://nlp.stanford.edu/projects/snli/), [`MNLI`](https://cims.nyu.edu/~sbowman/multinli/), [`FEVER-NLI`](https://github.com/easonnie/combine-FEVER-NSMN/blob/master/other_resources/nli_fever.md), [`ANLI (R1, R2, R3)`](https://github.com/facebookresearch/anli). Please also cite the datasets if you are using the pre-trained model.  
   
 Please try the code snippet below.
@@ -96,6 +98,10 @@ When using this dataset, we ask that you obey some very simple rules:
 2. **Training data is for training, development data is for development, and test data is for reporting test numbers.** This means that you should not e.g. train on the train+dev data from rounds 1 and 2 and then report an increase in performance on the test set of round 3.
 
 3. We will host a leaderboard on this page. If you want to be added to the leaderboard, please contact us and/or submit a PR with a link to your paper, a link to your code in a public repository (e.g. Github), together with the following information: number of parameters in your model, data used for (pre-)training, and your dev and test results for *each* round, as well as the total over *all* rounds.
+
+## Reason
+
+AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Why do you think this example is hard?". 
 
 ## Other NLI Reference
 
