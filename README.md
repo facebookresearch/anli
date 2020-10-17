@@ -31,8 +31,11 @@ Please read more in [**Start your NLI research**](mds/start_your_nli_research.md
 An important detail in our experiments is that we combine SNLI+MNLI+FEVER-NLI and up-sample different rounds of ANLI to train the models.  
 **We highly recommend you refer to the above link for reproducing the results and training your models such that the results will be comparable to the ones on the leaderboard.**
 
-## Pre-trained Model
-Pre-trained NLI model can be easily called through huggingface model hub. The pre-trained models are `RoBERTa`, `ALBert`, `BART`, `ELECTRA`, `XLNet`. The training data is a combination of [`SNLI`](https://nlp.stanford.edu/projects/snli/), [`MNLI`](https://cims.nyu.edu/~sbowman/multinli/), [`FEVER-NLI`](https://github.com/easonnie/combine-FEVER-NSMN/blob/master/other_resources/nli_fever.md), [`ANLI (R1, R2, R3)`](https://github.com/facebookresearch/anli). Please also cite the datasets if you are using the pre-trained model.  
+## Pre-trained Models
+Pre-trained NLI models can be easily called through huggingface model hub.  
+The pre-trained models are `RoBERTa`, `ALBert`, `BART`, `ELECTRA`, `XLNet`.    
+The training data is a combination of [`SNLI`](https://nlp.stanford.edu/projects/snli/), [`MNLI`](https://cims.nyu.edu/~sbowman/multinli/), [`FEVER-NLI`](https://github.com/easonnie/combine-FEVER-NSMN/blob/master/other_resources/nli_fever.md), [`ANLI (R1, R2, R3)`](https://github.com/facebookresearch/anli). Please also cite the datasets if you are using the pre-trained model.  
+  
 Please try the code snippet below.
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -81,7 +84,8 @@ if __name__ == '__main__':
     print("Neutral:", predicted_probability[1])
     print("Contradiction:", predicted_probability[2])
 ```
-Checkout more in [here]().
+
+More in [here](https://github.com/facebookresearch/anli/blob/master/src/hg_api/interactive_eval.py).
 
 ## Rules
 
