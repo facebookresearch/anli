@@ -6,20 +6,8 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-if __name__ == '__main__':
+def evaluate(tokenizer, model, premise, hypothesis):
     max_length = 256
-
-    premise = "Two women are embracing while holding to go packages."
-    hypothesis = "The men are fighting outside a deli."
-
-    # hg_model_hub_name = "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"
-    # hg_model_hub_name = "ynie/albert-xxlarge-v2-snli_mnli_fever_anli_R1_R2_R3-nli"
-    # hg_model_hub_name = "ynie/bart-large-snli_mnli_fever_anli_R1_R2_R3-nli"
-    # hg_model_hub_name = "ynie/electra-large-discriminator-snli_mnli_fever_anli_R1_R2_R3-nli"
-    hg_model_hub_name = "ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli"
-
-    tokenizer = AutoTokenizer.from_pretrained(hg_model_hub_name)
-    model = AutoModelForSequenceClassification.from_pretrained(hg_model_hub_name)
 
     tokenized_input_seq_pair = tokenizer.encode_plus(premise, hypothesis,
                                                      max_length=max_length,
@@ -43,8 +31,29 @@ if __name__ == '__main__':
 
     predicted_probability = torch.softmax(outputs[0], dim=1)[0].tolist()  # batch_size only one
 
-    print("Premise:", premise)
-    print("Hypothesis:", hypothesis)
+    #print("Premise:", premise)
+    #print("Hypothesis:", hypothesis)
+    print("Prediction:")
     print("Entailment:", predicted_probability[0])
     print("Neutral:", predicted_probability[1])
     print("Contradiction:", predicted_probability[2])
+    print("="*20)
+
+if __name__ == '__main__':
+    print("Loading model...")
+
+    # hg_model_hub_name = "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"
+    # hg_model_hub_name = "ynie/albert-xxlarge-v2-snli_mnli_fever_anli_R1_R2_R3-nli"
+    # hg_model_hub_name = "ynie/bart-large-snli_mnli_fever_anli_R1_R2_R3-nli"
+    # hg_model_hub_name = "ynie/electra-large-discriminator-snli_mnli_fever_anli_R1_R2_R3-nli"
+    hg_model_hub_name = "ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli"
+
+    tokenizer = AutoTokenizer.from_pretrained(hg_model_hub_name)
+    model = AutoModelForSequenceClassification.from_pretrained(hg_model_hub_name)
+    print("Model loaded!")
+
+    while True:
+        premise = input("Premise> ")
+        hypothesis = input("Hypothesis> ")
+
+        evaluate(tokenizer, model, premise, hypothesis)
