@@ -101,7 +101,7 @@ When using this dataset, we ask that you obey some very simple rules:
 
 ## Reason
 
-AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Why do you think this example is hard?". 
+AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Please write a reason for your statement belonging to the category and why you think it was difficult for the system.". 
 
 ## Other NLI Reference
 
