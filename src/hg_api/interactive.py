@@ -37,6 +37,7 @@ def evaluate(tokenizer, model, premise, hypothesis):
     print("Entailment:", predicted_probability[0])
     print("Neutral:", predicted_probability[1])
     print("Contradiction:", predicted_probability[2])
+
     print("="*20)
 
 if __name__ == '__main__':
