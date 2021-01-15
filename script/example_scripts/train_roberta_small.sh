@@ -21,8 +21,6 @@ python src/nli/training.py \
   -g 1 \
   --single_gpu \
   -nr 0 \
-  --fp16 \
-  --fp16_opt_level O2 \
   --max_length 156 \
   --gradient_accumulation_steps 4 \
   --per_gpu_train_batch_size 4 \
@@ -31,7 +29,7 @@ python src/nli/training.py \
   --train_data \
 anli_r1_train:none,anli_r2_train:none,anli_r3_train:none \
   --train_weights \
-1,1,1,10,20,10 \
+10,20,10 \
   --eval_data \
 anli_r1_dev:none,anli_r2_dev:none,anli_r3_dev:none \
   --eval_frequency 2000 \
