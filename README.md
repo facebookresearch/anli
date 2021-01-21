@@ -15,8 +15,11 @@ Model | Publication | A1 | A2 | A3
 InfoBERT (RoBERTa Large) | [Wang et al., 2020](https://arxiv.org/pdf/2010.02329.pdf) | 75.0 | 50.5 | 47.7
 ALUM (RoBERTa Large) | [Liu et al., 2020](https://arxiv.org/abs/2004.08994) | 72.3 | 52.1 | 48.4
 GPT-3 | [Brown et al., 2020](https://arxiv.org/abs/2005.14165) | 36.8 | 34.0 | 40.2
-XLNet Large | [Yang et al., 2019](https://arxiv.org/abs/1906.08237) | 70.3 | 50.9 | 49.4
-RoBERTa Large | [Liu et al., 2019](https://arxiv.org/abs/1907.11692) | 72.4 | 49.8 | 44.4
+XLNet Large | [Yang et al., 2019](https://arxiv.org/abs/1906.08237) | 67.6 | 50.7 | 48.3
+RoBERTa Large | [Liu et al., 2019](https://arxiv.org/abs/1907.11692) | 73.8 | 48.9 | 44.4
+BERT Large | [Devlin et al., 2018](https://arxiv.org/abs/1810.04805) | 57.4 | 48.3 | 43.5
+
+(Updated on Jan 21 2021: The three entries on the bottom shows the numbers in the Table 3 of the [ANLI paper](https://arxiv.org/abs/1910.14599). We recommend report test results in your paper.)
 
 ## Implementation
 
@@ -93,6 +96,13 @@ if __name__ == '__main__':
     print("Neutral:", predicted_probability[1])
     print("Contradiction:", predicted_probability[2])
 ```
+
+If you are using our pre-trained model checkpoints with the above code snippet, we would expect to got the following numbers.
+Huggingface Model Hub Checkpoint | A1 (dev) | A2 (dev) | A3 (dev)
+---|---|---|---
+ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli | 73.8 | 50.8 | 46.1
+ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli | 73.4 | 52.3 | 50.8
+ynie/albert-xxlarge-v2-snli_mnli_fever_anli_R1_R2_R3-nli | 76.0 | 57.0 | 57.0
 
 More in [here](https://github.com/facebookresearch/anli/blob/master/src/hg_api/interactive_eval.py).
 
