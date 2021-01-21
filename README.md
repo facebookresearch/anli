@@ -97,7 +97,7 @@ if __name__ == '__main__':
     print("Contradiction:", predicted_probability[2])
 ```
 
-If you are using our pre-trained model checkpoints with the above code snippet, we would expect to got the following numbers.
+If you are using our pre-trained model checkpoints with the above code snippet, you would expect to got the following numbers.
 Huggingface Model Hub Checkpoint | A1 (dev) | A2 (dev) | A3 (dev)
 ---|---|---|---
 ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli | 73.8 | 50.8 | 46.1
