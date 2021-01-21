@@ -19,7 +19,7 @@ XLNet Large | [Yang et al., 2019](https://arxiv.org/abs/1906.08237) | 67.6 | 50.
 RoBERTa Large | [Liu et al., 2019](https://arxiv.org/abs/1907.11692) | 73.8 | 48.9 | 44.4
 BERT Large | [Devlin et al., 2018](https://arxiv.org/abs/1810.04805) | 57.4 | 48.3 | 43.5
 
-(Updated on Jan 21 2021: The three entries on the bottom shows the numbers in the Table 3 of the [ANLI paper](https://arxiv.org/abs/1910.14599). We recommend report test results in your paper.)
+(Updated on Jan 21 2021: The three entries at the bottom show the test set numbers from Table 3 in the [ANLI paper](https://arxiv.org/abs/1910.14599). We recommend that you report test set results in your paper. Dev scores, obtained for the models in this code base, are reported below.)
 
 ## Implementation
 
