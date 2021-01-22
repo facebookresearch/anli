@@ -74,6 +74,7 @@ if __name__ == '__main__':
                                                      return_token_type_ids=True, truncation=True)
 
     input_ids = torch.Tensor(tokenized_input_seq_pair['input_ids']).long().unsqueeze(0)
+
     # remember bart doesn't have 'token_type_ids', remove the line below if you are using bart.
     token_type_ids = torch.Tensor(tokenized_input_seq_pair['token_type_ids']).long().unsqueeze(0)
     attention_mask = torch.Tensor(tokenized_input_seq_pair['attention_mask']).long().unsqueeze(0)
