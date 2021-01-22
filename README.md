@@ -12,7 +12,7 @@ If you want to have your model added to the leaderboard, please reach out to us 
 
 Model | Publication | A1 | A2 | A3
 ---|---|---|---|---
-InfoBERT (RoBERTa Large) | [Wang et al., 2020](https://arxiv.org/pdf/2010.02329.pdf) | 75.0 | 50.5 | 47.7
+InfoBERT (RoBERTa Large) | [Wang et al., 2020](https://openreview.net/forum?id=hpH98mK5Puk) | 75.5 | 51.4 | 49.8
 ALUM (RoBERTa Large) | [Liu et al., 2020](https://arxiv.org/abs/2004.08994) | 72.3 | 52.1 | 48.4
 GPT-3 | [Brown et al., 2020](https://arxiv.org/abs/2005.14165) | 36.8 | 34.0 | 40.2
 ALBERT ( [using the checkpoint in this codebase](#albert) ) | [Lan et al., 2019](https://arxiv.org/abs/1909.11942) | 73.6 | 58.6 | 53.4
