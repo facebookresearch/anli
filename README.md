@@ -20,7 +20,7 @@ XLNet Large | [Yang et al., 2019](https://arxiv.org/abs/1906.08237) | 67.6 | 50.
 RoBERTa Large | [Liu et al., 2019](https://arxiv.org/abs/1907.11692) | 73.8 | 48.9 | 44.4
 BERT Large | [Devlin et al., 2018](https://arxiv.org/abs/1810.04805) | 57.4 | 48.3 | 43.5
 
-(Updated on Jan 21 2021: The three entries at the bottom show the test set numbers from Table 3 in the [ANLI paper](https://arxiv.org/abs/1910.14599). We recommend that you report test set results in your paper. Dev scores, obtained for the models in this code base, are reported below.)
+(Updated on Jan 21 2021: The three entries at the bottom show the test set numbers from Table 3 in the [ANLI paper](https://arxiv.org/abs/1910.14599). We recommend that you report test set results in your paper. Dev scores, obtained for the models in this code base, are reported [below](#checkpoint_results).)
 
 ## Implementation
 
@@ -99,7 +99,8 @@ if __name__ == '__main__':
 ```
 
 If you are using our pre-trained model checkpoints with the above code snippet, you would expect to got the following numbers.
-Huggingface Model Hub Checkpoint | A1 (dev) | A2 (dev) | A3 (dev) | A1 (test) | A2 (test) | A3 (test)
+
+<a name="checkpoint_results">Huggingface Model Hub Checkpoint</a> | A1 (dev) | A2 (dev) | A3 (dev) | A1 (test) | A2 (test) | A3 (test)
 ---|---|---|---|---|---|---
 ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli | 73.8 | 50.8 | 46.1 | 73.6 | 49.3 | 45.5
 ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli | 73.4 | 52.3 | 50.8 | 70.0 | 51.4 | 49.8
