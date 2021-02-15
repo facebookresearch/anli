@@ -5,6 +5,22 @@
 
 ## Dataset
 Version 1.0 is available here: https://dl.fbaipublicfiles.com/anli/anli_v1.0.zip.
+### Format
+The dataset files are all in JSONL format (one JSON per line). Below is one example (in JSON format) with self-explanatory fields.  
+Note that each example (each line) in the files contains a `uid` field represents **a unique id** across all the examples in all there rounds of ANLI.
+```
+{   
+    "uid": "8a91e1a2-9a32-4fd9-b1b6-bd2ee2287c8f", 
+    "premise": "Javier Torres (born May 14, 1988 in Artesia, California) is an undefeated Mexican American professional boxer in the Heavyweight division. 
+                Torres was the second rated U.S. amateur boxer in the Super Heavyweight division and a member of the Mexican Olympic team.", 
+    "hypothesis": "Javier was born in Mexico", 
+    "label": "c", 
+    "reason": "The paragraph states that Javier was born in the California, US."
+}
+```
+
+### Reason
+AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Please write a reason for your statement belonging to the category and why you think it was difficult for the system.".
 
 ## Leaderboard
 
@@ -119,10 +135,6 @@ When using this dataset, we ask that you obey some very simple rules:
 2. **Training data is for training, development data is for development, and test data is for reporting test numbers.** This means that you should not e.g. train on the train+dev data from rounds 1 and 2 and then report an increase in performance on the test set of round 3.
 
 3. We will host a leaderboard on this page. If you want to be added to the leaderboard, please contact us and/or submit a PR with a link to your paper, a link to your code in a public repository (e.g. Github), together with the following information: number of parameters in your model, data used for (pre-)training, and your dev and test results for *each* round, as well as the total over *all* rounds.
-
-## Reason
-
-AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Please write a reason for your statement belonging to the category and why you think it was difficult for the system.". 
 
 ## Other NLI Reference
 

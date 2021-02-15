@@ -6,6 +6,7 @@
 import argparse
 from pathlib import Path
 
+from torch.optim import Adam
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 from transformers import XLNetTokenizer, XLNetForSequenceClassification
 # from transformers import XLNetTokenizer
@@ -22,6 +23,7 @@ from transformers import AdamW
 from transformers import get_linear_schedule_with_warmup
 from flint.data_utils.batchbuilder import BaseBatchBuilder, move_to_device
 from flint.data_utils.fields import RawFlintField, LabelFlintField, ArrayIndexFlintField
+from modeling.res_encoder import ResEncoder, EmptyScheduler, BagOfWords
 from utils import common, list_dict_data_tool, save_tool
 import os
 import torch.multiprocessing as mp
@@ -42,6 +44,26 @@ pp = pprint.PrettyPrinter(indent=2)
 # from fairseq.data.data_utils import collate_tokens
 
 MODEL_CLASSES = {
+    "lstm-resencoder": {
+        "model_name": "bert-large-uncased",
+        "tokenizer": BertTokenizer,
+        "sequence_classification": BertForSequenceClassification,
+        # "padding_token_value": 0,
+        "padding_segement_value": 0,
+        "padding_att_value": 0,
+        "do_lower_case": True,
+    },
+
+    "bag-of-words": {
+        "model_name": "bert-large-uncased",
+        "tokenizer": BertTokenizer,
+        "sequence_classification": BertForSequenceClassification,
+        # "padding_token_value": 0,
+        "padding_segement_value": 0,
+        "padding_att_value": 0,
+        "do_lower_case": True,
+    },
+
     "bert-base": {
         "model_name": "bert-base-uncased",
         "tokenizer": BertTokenizer,
@@ -51,6 +73,7 @@ MODEL_CLASSES = {
         "padding_att_value": 0,
         "do_lower_case": True,
     },
+
     "bert-large": {
         "model_name": "bert-large-uncased",
         "tokenizer": BertTokenizer,
@@ -396,6 +419,7 @@ def train(local_rank, args):
     max_length = args.max_length
 
     model_class_item = MODEL_CLASSES[args.model_class_name]
+    model_class_name = args.model_class_name
     model_name = model_class_item['model_name']
     do_lower_case = model_class_item['do_lower_case'] if 'do_lower_case' in model_class_item else False
 
@@ -403,9 +427,28 @@ def train(local_rank, args):
                                                               cache_dir=str(config.PRO_ROOT / "trans_cache"),
                                                               do_lower_case=do_lower_case)
 
-    model = model_class_item['sequence_classification'].from_pretrained(model_name,
-                                                                        cache_dir=str(config.PRO_ROOT / "trans_cache"),
-                                                                        num_labels=num_labels)
+    if model_class_name in ['lstm-resencoder']:
+        hg_model = model_class_item['sequence_classification'].from_pretrained(model_name,
+                                                                            cache_dir=str(
+                                                                                config.PRO_ROOT / "trans_cache"),
+                                                                            num_labels=num_labels)
+        embedding = hg_model.bert.embeddings.word_embeddings
+        model = ResEncoder(v_size=embedding.weight.size(0), embd_dim=embedding.weight.size(1))
+        model.Embd.weight = embedding.weight
+
+    elif model_class_name in ['bag-of-words']:
+        hg_model = model_class_item['sequence_classification'].from_pretrained(model_name,
+                                                                               cache_dir=str(
+                                                                                   config.PRO_ROOT / "trans_cache"),
+                                                                               num_labels=num_labels)
+        embedding = hg_model.bert.embeddings.word_embeddings
+        model = BagOfWords(v_size=embedding.weight.size(0), embd_dim=embedding.weight.size(1))
+        model.Embd.weight = embedding.weight
+
+    else:
+        model = model_class_item['sequence_classification'].from_pretrained(model_name,
+                                                                            cache_dir=str(config.PRO_ROOT / "trans_cache"),
+                                                                            num_labels=num_labels)
 
     padding_token_value = tokenizer.convert_tokens_to_ids([tokenizer.pad_token])[0]
     padding_segement_value = model_class_item["padding_segement_value"]
@@ -528,10 +571,14 @@ def train(local_rank, args):
         {"params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)], "weight_decay": 0.0},
     ]
 
-    optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
-    scheduler = get_linear_schedule_with_warmup(
-        optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=t_total
-    )
+    if model_class_name not in ['lstm-resencoder']:
+        optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
+        scheduler = get_linear_schedule_with_warmup(
+            optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=t_total
+        )
+    else:
+        optimizer = Adam(optimizer_grouped_parameters)
+        scheduler = EmptyScheduler()
 
     if args.fp16:
         try:
@@ -619,7 +666,7 @@ def train(local_rank, args):
 
             batch = move_to_device(batch, local_rank)
             # print(batch['input_ids'], batch['y'])
-            if args.model_class_name in ["distilbert", "bart-large"]:
+            if args.model_class_name in ["distilbert", "bart-large", "lstm-resencoder", "bag-of-words"]:
                 outputs = model(batch['input_ids'],
                                 attention_mask=batch['attention_mask'],
                                 labels=batch['y'])
@@ -803,7 +850,7 @@ def eval_model(model, dev_dataloader, device_num, args):
         for i, batch in enumerate(dev_dataloader, 0):
             batch = move_to_device(batch, device_num)
 
-            if args.model_class_name in ["distilbert", "bart-large"]:
+            if args.model_class_name in ["distilbert", "bart-large", 'lstm-resencoder', "bag-of-words"]:
                 outputs = model(batch['input_ids'],
                                 attention_mask=batch['attention_mask'],
                                 labels=batch['y'])
