@@ -321,6 +321,9 @@ def main():
 
     parser.add_argument('--epochs', default=2, type=int, metavar='N',
                         help='number of total epochs to run')
+    parser.add_argument('--total_step', default=-1, type=int, metavar='N',
+                        help='number of step to update, default calculate with total data size.'
+                             'if we set this step, then epochs will be 100 to run forever.')
     parser.add_argument(
         "--per_gpu_train_batch_size", default=16, type=int, help="Batch size per GPU/CPU for training.",
     )
@@ -385,7 +388,11 @@ def train(local_rank, args):
     args.local_rank = local_rank
     # args.warmup_steps = 20
     debug_count = 1000
-    num_epoch = args.epochs
+
+    if args.total_step > 0:
+        num_epoch = 10000  # if we set total step, num_epoch will be forever.
+    else:
+        num_epoch = args.epochs
 
     actual_train_batch_size = args.world_size * args.per_gpu_train_batch_size * args.gradient_accumulation_steps
     args.actual_train_batch_size = actual_train_batch_size
@@ -511,7 +518,12 @@ def train(local_rank, args):
     # Estimate the training size ends:
 
     # t_total = estimated_training_size // args.gradient_accumulation_steps * num_epoch
-    t_total = estimated_training_size * num_epoch // args.actual_train_batch_size
+    # t_total = estimated_training_size * num_epoch // args.actual_train_batch_size
+    if args.total_step <= 0:
+        t_total = estimated_training_size * num_epoch // args.actual_train_batch_size
+    else:
+        t_total = args.total_step
+
     if args.warmup_steps <= 0:  # set the warmup steps to 0.1 * total step if the given warmup step is -1.
         args.warmup_steps = int(t_total * 0.1)
 
@@ -552,6 +564,8 @@ def train(local_rank, args):
         print("Warmup Steps:", args.warmup_steps)
         print("Actual Training Batch Size:", actual_train_batch_size)
         print("Arguments", pp.pprint(args))
+
+    is_finished = False
 
     # Let build the logger and log everything before the start of the first training epoch.
     if args.global_rank in [-1, 0]:  # only do logging if we use cpu or global_rank=0
@@ -705,8 +719,13 @@ def train(local_rank, args):
                             del r_dict[key]['predictions']
                         common.save_json(r_dict, cur_results_path / "results_dict.json", indent=2)
 
+                if args.total_step > 0 and global_step == t_total:
+                    # if we set total step and global step s t_total.
+                    is_finished = True
+                    break
+
         # End of epoch evaluation.
-        if args.global_rank in [-1, 0]:
+        if args.global_rank in [-1, 0] and args.total_step <= 0:
             r_dict = dict()
             # Eval loop:
             for i in range(len(eval_data_name)):
@@ -752,6 +771,9 @@ def train(local_rank, args):
                 for key, item in r_dict.items():
                     del r_dict[key]['predictions']
                 common.save_json(r_dict, cur_results_path / "results_dict.json", indent=2)
+
+        if is_finished:
+            break
 
 
 id2label = {
