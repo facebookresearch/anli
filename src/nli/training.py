@@ -319,11 +319,28 @@ def main():
         dest='save_prediction',
         help='Do we want to save prediction')
 
+    parser.add_argument(
+        "--resume_path",
+        type=str,
+        default=None,
+        help="If we want to resume model training, we need to set the resume path to restore state dicts.",
+    )
+    parser.add_argument(
+        "--global_iteration",
+        type=int,
+        default=0,
+        help="This argument is only used if we resume model training.",
+    )
+
     parser.add_argument('--epochs', default=2, type=int, metavar='N',
                         help='number of total epochs to run')
     parser.add_argument('--total_step', default=-1, type=int, metavar='N',
                         help='number of step to update, default calculate with total data size.'
                              'if we set this step, then epochs will be 100 to run forever.')
+
+    parser.add_argument('--sampler_seed', default=-1, type=int, metavar='N',
+                        help='The seed the controls the data sampling order.')
+
     parser.add_argument(
         "--per_gpu_train_batch_size", default=16, type=int, help="Batch size per GPU/CPU for training.",
     )
@@ -545,6 +562,17 @@ def train(local_rank, args):
         optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=t_total
     )
 
+    global_step = 0
+
+    if args.resume_path:
+        print("Resume Training")
+        global_step = args.global_iteration
+        print("Resume Global Step: ", global_step)
+        model.load_state_dict(torch.load(str(Path(args.resume_path) / "model.pt"), map_location=torch.device('cpu')))
+        optimizer.load_state_dict(torch.load(str(Path(args.resume_path) / "optimizer.pt"), map_location=torch.device('cpu')))
+        scheduler.load_state_dict(torch.load(str(Path(args.resume_path) / "scheduler.pt"), map_location=torch.device('cpu')))
+        print("State Resumed")
+
     if args.fp16:
         try:
             from apex import amp
@@ -569,6 +597,10 @@ def train(local_rank, args):
 
     # Let build the logger and log everything before the start of the first training epoch.
     if args.global_rank in [-1, 0]:  # only do logging if we use cpu or global_rank=0
+        resume_prefix = ""
+        # if args.resume_path:
+        #     resume_prefix = "resumed_"
+
         if not args.debug_mode:
             file_path_prefix, date = save_tool.gen_file_prefix(f"{args.experiment_name}")
             # # # Create Log File
@@ -587,7 +619,11 @@ def train(local_rank, args):
             if not prediction_path.exists():
                 prediction_path.mkdir()
 
-    global_step = 0
+            # if this is a resumed, then we save the resumed path.
+            if args.resume_path:
+                with open(os.path.join(file_path_prefix, "resume_log.txt"), 'w') as out_f:
+                    out_f.write(str(args.resume_path))
+                    out_f.flush()
 
     # print(f"Global Rank:{args.global_rank} ### ", 'Init!')
 
@@ -625,7 +661,10 @@ def train(local_rank, args):
         print(debug_node_info(args), "epoch: ", epoch)
 
         if not args.cpu and not args.single_gpu:
-            train_sampler.set_epoch(epoch)  # setup the epoch to ensure random sampling at each epoch
+            if args.sampler_seed == -1:
+                train_sampler.set_epoch(epoch)  # setup the epoch to ensure random sampling at each epoch
+            else:
+                train_sampler.set_epoch(epoch + args.sampler_seed)
 
         for forward_step, batch in enumerate(tqdm(train_dataloader, desc="Iteration",
                                                   disable=args.global_rank not in [-1, 0]), 0):
