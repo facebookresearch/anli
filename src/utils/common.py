@@ -70,6 +70,7 @@ def load_jsonl(filename, debug_num=None):
         print("Load Jsonl:", filename)
         for line in tqdm(in_f):
             item = json.loads(line.strip(), object_hook=unserialize_JsonableObject)
+            item["label"] = item["label"].lower()
             d_list.append(item)
             if debug_num is not None and 0 < debug_num == len(d_list):
                 break

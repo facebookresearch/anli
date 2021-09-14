@@ -1,4 +1,4 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
+# Copyright (c) Facebook, Inc. and its affiliates./
 #
 # This source code is licensed under Creative Commons-Non Commercial 4.0 found in the
 # LICENSE file in the root directory of this source tree.
@@ -15,6 +15,7 @@ from transformers import AlbertTokenizer, AlbertForSequenceClassification
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
 from transformers import BartTokenizer, BartForSequenceClassification
 from transformers import ElectraTokenizer, ElectraForSequenceClassification
+from transformers import DebertaV2ForSequenceClassification, DebertaV2Tokenizer
 
 from torch.utils.data import Dataset, DataLoader, DistributedSampler, RandomSampler, SequentialSampler
 import config
@@ -150,6 +151,17 @@ MODEL_CLASSES = {
         "padding_att_value": 0,
         "internal_model_name": "electra",
         'insight_supported': True,
+    },
+
+    "deberta": {
+            "model_name": "microsoft/deberta-v2-xlarge",
+            "tokenizer": DebertaV2Tokenizer,
+            "sequence_classification": DebertaV2ForSequenceClassification,
+            "padding_segement_value": 0,
+            "padding_att_value": 0,
+            "internal_model_name": "deberta",
+            'insight_supported': True,
+
     }
 }
 
@@ -421,6 +433,8 @@ def train(local_rank, args):
 
     model_class_item = MODEL_CLASSES[args.model_class_name]
     model_name = model_class_item['model_name']
+    #print("args.model_class_name", args.model_class_name)
+    #print("model_name", model_name)
     do_lower_case = model_class_item['do_lower_case'] if 'do_lower_case' in model_class_item else False
 
     tokenizer = model_class_item['tokenizer'].from_pretrained(model_name,
@@ -681,7 +695,7 @@ def train(local_rank, args):
                                 attention_mask=batch['attention_mask'],
                                 token_type_ids=batch['token_type_ids'],
                                 labels=batch['y'])
-            loss, logits = outputs[:2]
+            loss, logits = outputs["loss"], outputs["logits"]
             # print(debug_node_info(args), loss, logits, batch['uid'])
             # print(debug_node_info(args), loss, batch['uid'])
 
@@ -874,12 +888,12 @@ def eval_model(model, dev_dataloader, device_num, args):
                                 token_type_ids=batch['token_type_ids'],
                                 labels=batch['y'])
 
-            loss, logits = outputs[:2]
+            loss, logits = outputs["loss"], outputs["logits"]
 
             uid_list.extend(list(batch['uid']))
-            y_list.extend(batch['y'].tolist())
-            pred_list.extend(torch.max(logits, 1)[1].view(logits.size(0)).tolist())
-            logits_list.extend(logits.tolist())
+            y_list.extend(batch['y'].cpu().tolist())
+            pred_list.extend(torch.max(logits, 1)[1].view(logits.size(0)).cpu().tolist())
+            logits_list.extend(logits.cpu().tolist())
 
     assert len(pred_list) == len(logits_list)
     assert len(pred_list) == len(logits_list)

@@ -94,14 +94,13 @@ def evaluation():
     for named_path in eval_data_named_path:
         ind = named_path.find(':')
         name = named_path[:ind]
-        path = name[ind + 1:]
+        path = named_path[ind + 1:]
         if name in registered_path:
             d_list = common.load_jsonl(registered_path[name])
         else:
             d_list = common.load_jsonl(path)
         eval_data_name.append(name)
         eval_data_path.append(path)
-
         eval_data_list.append(d_list)
 
     batching_schema = {
