@@ -29,7 +29,7 @@ AdversarialNLI dataset contains a reason field for each examples in the `dev` an
 
 ### Annotations for Error Analysis
 
-An in-depth error analysis of the dataset is available here: https://github.com/facebookresearch/anli/anlizinganli
+An in-depth error analysis of the dataset is available here: https://github.com/facebookresearch/anli/tree/main/anlizinganli
 
 We use a fine-grained annotation scheme of the different aspects of inference that are responsible for the gold classification labels, and use it to hand-code all three of the ANLI development sets. These annotations can be used to answer a variety of interesting questions: which inference types are most common, which models have the highest performance on each reasoning type, and which types are the most challenging for state of-the-art models?
 
