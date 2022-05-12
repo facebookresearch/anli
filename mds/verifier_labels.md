@@ -27,6 +27,7 @@ R2-Dev |            0    |   710   |  290
 R2-Test |          0    |   672  |   328
 R2-Train |       85751 |  10030|   4678
 R2-Dev |      0    |   809   |  391
-R2-Test |     0   |    820    | 380
+R2-Test |     0   |    820    | 380  
+
 Total number of examples: 169265  
 
