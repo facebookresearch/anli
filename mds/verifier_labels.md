@@ -17,7 +17,7 @@ Example:
 The table below shows the number of verification labels for each split in ANLI R1 to R3.  
 Note that for all the examples in dev and test split, there are at least 2 verifiers that agreed with the writer of the example.  
 
-# of verification labels|0|2|3
+Number of verification labels|0|2|3
 ---|---|---|---
 R1-Train|13816|2526|604
 R1-Dev|0|702|298
