@@ -70,6 +70,9 @@ Please read more in [**Start your NLI research**](mds/start_your_nli_research.md
 An important detail in our experiments is that we combine SNLI+MNLI+FEVER-NLI and up-sample different rounds of ANLI to train the models.  
 **We highly recommend you refer to the above link for reproducing the results and training your models such that the results will be comparable to the ones on the leaderboard.**
 
+(Updated on May 11, 2022)  
+Thanks to [Jared Contrascere](https://github.com/contracode). Now, Researchers can use the [notebook](https://github.com/facebookresearch/anli/blob/main/script/example_scripts/ANLI_on_Google_Colab.ipynb) to run experiments quickly via Google Colab.
+
 ## Pre-trained Models
 Pre-trained NLI models can be easily called through huggingface model hub.  
 
