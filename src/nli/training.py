@@ -319,8 +319,28 @@ def main():
         dest='save_prediction',
         help='Do we want to save prediction')
 
+    parser.add_argument(
+        "--resume_path",
+        type=str,
+        default=None,
+        help="If we want to resume model training, we need to set the resume path to restore state dicts.",
+    )
+    parser.add_argument(
+        "--global_iteration",
+        type=int,
+        default=0,
+        help="This argument is only used if we resume model training.",
+    )
+
     parser.add_argument('--epochs', default=2, type=int, metavar='N',
                         help='number of total epochs to run')
+    parser.add_argument('--total_step', default=-1, type=int, metavar='N',
+                        help='number of step to update, default calculate with total data size.'
+                             'if we set this step, then epochs will be 100 to run forever.')
+
+    parser.add_argument('--sampler_seed', default=-1, type=int, metavar='N',
+                        help='The seed the controls the data sampling order.')
+
     parser.add_argument(
         "--per_gpu_train_batch_size", default=16, type=int, help="Batch size per GPU/CPU for training.",
     )
@@ -385,7 +405,11 @@ def train(local_rank, args):
     args.local_rank = local_rank
     # args.warmup_steps = 20
     debug_count = 1000
-    num_epoch = args.epochs
+
+    if args.total_step > 0:
+        num_epoch = 10000  # if we set total step, num_epoch will be forever.
+    else:
+        num_epoch = args.epochs
 
     actual_train_batch_size = args.world_size * args.per_gpu_train_batch_size * args.gradient_accumulation_steps
     args.actual_train_batch_size = actual_train_batch_size
@@ -511,7 +535,12 @@ def train(local_rank, args):
     # Estimate the training size ends:
 
     # t_total = estimated_training_size // args.gradient_accumulation_steps * num_epoch
-    t_total = estimated_training_size * num_epoch // args.actual_train_batch_size
+    # t_total = estimated_training_size * num_epoch // args.actual_train_batch_size
+    if args.total_step <= 0:
+        t_total = estimated_training_size * num_epoch // args.actual_train_batch_size
+    else:
+        t_total = args.total_step
+
     if args.warmup_steps <= 0:  # set the warmup steps to 0.1 * total step if the given warmup step is -1.
         args.warmup_steps = int(t_total * 0.1)
 
@@ -533,6 +562,17 @@ def train(local_rank, args):
         optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=t_total
     )
 
+    global_step = 0
+
+    if args.resume_path:
+        print("Resume Training")
+        global_step = args.global_iteration
+        print("Resume Global Step: ", global_step)
+        model.load_state_dict(torch.load(str(Path(args.resume_path) / "model.pt"), map_location=torch.device('cpu')))
+        optimizer.load_state_dict(torch.load(str(Path(args.resume_path) / "optimizer.pt"), map_location=torch.device('cpu')))
+        scheduler.load_state_dict(torch.load(str(Path(args.resume_path) / "scheduler.pt"), map_location=torch.device('cpu')))
+        print("State Resumed")
+
     if args.fp16:
         try:
             from apex import amp
@@ -553,8 +593,14 @@ def train(local_rank, args):
         print("Actual Training Batch Size:", actual_train_batch_size)
         print("Arguments", pp.pprint(args))
 
+    is_finished = False
+
     # Let build the logger and log everything before the start of the first training epoch.
     if args.global_rank in [-1, 0]:  # only do logging if we use cpu or global_rank=0
+        resume_prefix = ""
+        # if args.resume_path:
+        #     resume_prefix = "resumed_"
+
         if not args.debug_mode:
             file_path_prefix, date = save_tool.gen_file_prefix(f"{args.experiment_name}")
             # # # Create Log File
@@ -573,7 +619,11 @@ def train(local_rank, args):
             if not prediction_path.exists():
                 prediction_path.mkdir()
 
-    global_step = 0
+            # if this is a resumed, then we save the resumed path.
+            if args.resume_path:
+                with open(os.path.join(file_path_prefix, "resume_log.txt"), 'w') as out_f:
+                    out_f.write(str(args.resume_path))
+                    out_f.flush()
 
     # print(f"Global Rank:{args.global_rank} ### ", 'Init!')
 
@@ -611,7 +661,10 @@ def train(local_rank, args):
         print(debug_node_info(args), "epoch: ", epoch)
 
         if not args.cpu and not args.single_gpu:
-            train_sampler.set_epoch(epoch)  # setup the epoch to ensure random sampling at each epoch
+            if args.sampler_seed == -1:
+                train_sampler.set_epoch(epoch)  # setup the epoch to ensure random sampling at each epoch
+            else:
+                train_sampler.set_epoch(epoch + args.sampler_seed)
 
         for forward_step, batch in enumerate(tqdm(train_dataloader, desc="Iteration",
                                                   disable=args.global_rank not in [-1, 0]), 0):
@@ -705,8 +758,13 @@ def train(local_rank, args):
                             del r_dict[key]['predictions']
                         common.save_json(r_dict, cur_results_path / "results_dict.json", indent=2)
 
+                if args.total_step > 0 and global_step == t_total:
+                    # if we set total step and global step s t_total.
+                    is_finished = True
+                    break
+
         # End of epoch evaluation.
-        if args.global_rank in [-1, 0]:
+        if args.global_rank in [-1, 0] and args.total_step <= 0:
             r_dict = dict()
             # Eval loop:
             for i in range(len(eval_data_name)):
@@ -752,6 +810,9 @@ def train(local_rank, args):
                 for key, item in r_dict.items():
                     del r_dict[key]['predictions']
                 common.save_json(r_dict, cur_results_path / "results_dict.json", indent=2)
+
+        if is_finished:
+            break
 
 
 id2label = {
