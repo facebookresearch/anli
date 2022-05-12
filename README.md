@@ -22,6 +22,10 @@ Note that each example (each line) in the files contains a `uid` field represent
 ### Reason
 AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Please write a reason for your statement belonging to the category and why you think it was difficult for the system.".
 
+### Verifier Labels (Updated on May 11, 2022)
+All the examples in our dev and test sets are verified by 2 or 3 (if the first 2 verifiers do not agree with each other) verifiers. We released additional verifier labels in [`verifier_labels/verifier_labels_R1-3.jsonl`](https://github.com/facebookresearch/anli/blob/main/verifier_labels/verifier_labels_R1-3.jsonl).  
+Please refer to the [verifier_labels_readme](https://github.com/facebookresearch/anli/blob/main/mds/verifier_labels.md) or Sec 2.1, Appendix C and Figure 7 in the [ANLI paper](https://arxiv.org/pdf/1910.14599.pdf) for more details about the verifier labels.
+
 ## Leaderboard
 
 If you want to have your model added to the leaderboard, please reach out to us or submit a PR.
