@@ -27,11 +27,19 @@ Note that each example (each line) in the files contains a `uid` field represent
 ### Reason
 AdversarialNLI dataset contains a reason field for each examples in the `dev` and `test` split and for some examples in the `train` split. The reason is collected by asking annotator "Please write a reason for your statement belonging to the category and why you think it was difficult for the system.".
 
+
+
+### Verifier Labels (Updated on May 11, 2022)
+All the examples in our dev and test sets are verified by 2 or 3 (if the first 2 verifiers do not agree with each other) verifiers. We released additional verifier labels in [`verifier_labels/verifier_labels_R1-3.jsonl`](https://github.com/facebookresearch/anli/blob/main/verifier_labels/verifier_labels_R1-3.jsonl).  
+Please refer to the [verifier_labels_readme](https://github.com/facebookresearch/anli/blob/main/mds/verifier_labels.md) or Sec 2.1, Appendix C and Figure 7 in the [ANLI paper](https://arxiv.org/pdf/1910.14599.pdf) for more details about the verifier labels.
+
+
 ### Annotations for Error Analysis
 
 An in-depth error analysis of the dataset is available here: https://github.com/facebookresearch/anli/tree/main/anlizinganli
 
 We use a fine-grained annotation scheme of the different aspects of inference that are responsible for the gold classification labels, and use it to hand-code all three of the ANLI development sets. These annotations can be used to answer a variety of interesting questions: which inference types are most common, which models have the highest performance on each reasoning type, and which types are the most challenging for state of-the-art models?
+
 
 ## Leaderboard
 
